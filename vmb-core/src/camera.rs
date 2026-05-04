@@ -57,6 +57,21 @@ impl<R: VmbRuntime> Camera<R> {
         &self.id
     }
 
+    /// Query Vimba camera float feature.
+    pub fn get_feature_float(&self, name: &str) -> Result<f64> {
+        self.runtime.get_feature_float(self.handle, name)
+    }
+
+    /// Set Vimba camera float feature.
+    pub fn set_feature_float(&self, name: &str, value: f64) -> Result<()> {
+        self.runtime.set_feature_float(self.handle, name, value)
+    }
+
+    /// Set Vimba camera enum feature.
+    pub fn set_feature_enum(&self, name: &str, value: &str) -> Result<()> {
+        self.runtime.set_feature_enum(self.handle, name, value)
+    }
+    
     /// Load a Vimba settings XML (day/night profile).
     pub fn load_settings(&self, path: &Path) -> Result<()> {
         self.runtime.load_settings(self.handle, path)
