@@ -95,6 +95,15 @@ pub trait VmbRuntime: Send + Sync + 'static {
     /// Load a Vimba settings XML onto an opened camera.
     fn load_settings(&self, h: CameraHandle, path: &Path) -> Result<()>;
 
+    /// Request a feature from an opened camera.
+    fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64>;
+    
+    /// Set a float feature on an opened camera.
+    fn set_feature_float(&self, h: CameraHandle, name: &str, value: f64) -> Result<()>;
+
+    /// Set an enum feature on an opened camera.
+    fn set_feature_enum(&self, h: CameraHandle, name: &str, value: &str) -> Result<()>;
+
     /// Run a GenICam feature command (e.g. `"AcquisitionStart"`).
     fn run_feature_command(&self, h: CameraHandle, name: &str) -> Result<()>;
 

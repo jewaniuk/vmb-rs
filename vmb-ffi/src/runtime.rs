@@ -206,6 +206,46 @@ impl VmbRuntime for VmbFfiRuntime {
         Ok(())
     }
 
+    fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64> {
+        let raw = self.resolve_camera(h)?;
+        let cmd = CString::new(name).map_err(|_| VmbError::InvalidString {
+            context: "feature_float_get",
+        })?;
+        let mut value: f64 = 0.0;
+        // SAFETY: `cmd` lives until end of call. `value` is mutably borrowed.
+        unsafe {
+            check((self.state.api.VmbFeatureFloatGet())(raw, cmd.as_ptr(), &mut value))?;
+        }
+        Ok(value)
+    }
+
+    fn set_feature_float(&self, h: CameraHandle, name: &str, value: f64) -> Result<()> {
+        let raw = self.resolve_camera(h)?;
+        let cmd = CString::new(name).map_err(|_| VmbError::InvalidString {
+            context: "feature_float_set",
+        })?;
+        // SAFETY: `cmd` lives until end of call.
+        unsafe {
+            check((self.state.api.VmbFeatureFloatSet())(raw, cmd.as_ptr(), value))?;
+        }
+        Ok(())
+    }
+
+    fn set_feature_enum(&self, h: CameraHandle, name: &str, value: &str) -> Result<()> {
+        let raw = self.resolve_camera(h)?;
+        let cmd_name = CString::new(name).map_err(|_| VmbError::InvalidString {
+            context: "feature_enum_set_name",
+        })?;
+        let cmd_value = CString::new(value).map_err(|_| VmbError::InvalidString {
+            context: "feature_enum_set_value",
+        })?;
+        // SAFETY: `cmd_name` and `cmd_value` live until end of call.
+        unsafe {
+            check((self.state.api.VmbFeatureEnumSet())(raw, cmd_name.as_ptr(), cmd_value.as_ptr()))?;
+        }
+        Ok(())
+    }
+
     fn run_feature_command(&self, h: CameraHandle, name: &str) -> Result<()> {
         let raw = self.resolve_camera(h)?;
         let cmd = CString::new(name).map_err(|_| VmbError::InvalidString {
