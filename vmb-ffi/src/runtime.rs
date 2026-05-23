@@ -214,7 +214,11 @@ impl VmbRuntime for VmbFfiRuntime {
         let mut value: f64 = 0.0;
         // SAFETY: `cmd` lives until end of call. `value` is mutably borrowed.
         unsafe {
-            check((self.state.api.VmbFeatureFloatGet())(raw, cmd.as_ptr(), &mut value))?;
+            check((self.state.api.VmbFeatureFloatGet())(
+                raw,
+                cmd.as_ptr(),
+                &mut value,
+            ))?;
         }
         Ok(value)
     }
@@ -226,7 +230,11 @@ impl VmbRuntime for VmbFfiRuntime {
         })?;
         // SAFETY: `cmd` lives until end of call.
         unsafe {
-            check((self.state.api.VmbFeatureFloatSet())(raw, cmd.as_ptr(), value))?;
+            check((self.state.api.VmbFeatureFloatSet())(
+                raw,
+                cmd.as_ptr(),
+                value,
+            ))?;
         }
         Ok(())
     }
@@ -241,7 +249,11 @@ impl VmbRuntime for VmbFfiRuntime {
         })?;
         // SAFETY: `cmd_name` and `cmd_value` live until end of call.
         unsafe {
-            check((self.state.api.VmbFeatureEnumSet())(raw, cmd_name.as_ptr(), cmd_value.as_ptr()))?;
+            check((self.state.api.VmbFeatureEnumSet())(
+                raw,
+                cmd_name.as_ptr(),
+                cmd_value.as_ptr(),
+            ))?;
         }
         Ok(())
     }

@@ -417,14 +417,20 @@ impl VmbRuntime for FakeVmbRuntime {
     }
 
     fn set_feature_float(&self, h: CameraHandle, name: &str, value: f64) -> Result<()> {
-        self.state
-            .record(FakeCall::SetFeatureFloat(h, name.to_string(), value.to_bits()));
+        self.state.record(FakeCall::SetFeatureFloat(
+            h,
+            name.to_string(),
+            value.to_bits(),
+        ));
         self.state.maybe_fail(Method::SetFeatureFloat)
     }
 
     fn set_feature_enum(&self, h: CameraHandle, name: &str, value: &str) -> Result<()> {
-        self.state
-            .record(FakeCall::SetFeatureEnum(h, name.to_string(), value.to_string()));
+        self.state.record(FakeCall::SetFeatureEnum(
+            h,
+            name.to_string(),
+            value.to_string(),
+        ));
         self.state.maybe_fail(Method::SetFeatureEnum)
     }
 

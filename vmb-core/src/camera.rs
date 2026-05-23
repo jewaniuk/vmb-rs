@@ -71,7 +71,7 @@ impl<R: VmbRuntime> Camera<R> {
     pub fn set_feature_enum(&self, name: &str, value: &str) -> Result<()> {
         self.runtime.set_feature_enum(self.handle, name, value)
     }
-    
+
     /// Load a Vimba settings XML (day/night profile).
     pub fn load_settings(&self, path: &Path) -> Result<()> {
         self.runtime.load_settings(self.handle, path)

@@ -97,7 +97,7 @@ pub trait VmbRuntime: Send + Sync + 'static {
 
     /// Request a feature from an opened camera.
     fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64>;
-    
+
     /// Set a float feature on an opened camera.
     fn set_feature_float(&self, h: CameraHandle, name: &str, value: f64) -> Result<()>;
 
