@@ -95,7 +95,10 @@ pub trait VmbRuntime: Send + Sync + 'static {
     /// Load a Vimba settings XML onto an opened camera.
     fn load_settings(&self, h: CameraHandle, path: &Path) -> Result<()>;
 
-    /// Request a feature from an opened camera.
+    /// Request an integer feature from an opened camera.
+    fn get_feature_int(&self, h: CameraHandle, name: &str) -> Result<i64>;
+
+    /// Request a float feature from an opened camera.
     fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64>;
 
     /// Set a float feature on an opened camera.

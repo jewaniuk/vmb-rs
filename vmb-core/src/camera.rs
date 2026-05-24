@@ -57,6 +57,11 @@ impl<R: VmbRuntime> Camera<R> {
         &self.id
     }
 
+    /// Query Vimba camera int feature.
+    pub fn get_feature_int(&self, name: &str) -> Result<i64> {
+        self.runtime.get_feature_int(self.handle, name)
+    }
+
     /// Query Vimba camera float feature.
     pub fn get_feature_float(&self, name: &str) -> Result<f64> {
         self.runtime.get_feature_float(self.handle, name)

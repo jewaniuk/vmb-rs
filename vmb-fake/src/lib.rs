@@ -49,6 +49,8 @@ pub enum FakeCall {
     CloseCamera(CameraHandle),
     /// `load_settings(h, path)` was called.
     LoadSettings(CameraHandle, PathBuf),
+    /// `get_feature_int(h, name)` was called.
+    GetFeatureInt(CameraHandle, String),
     /// `get_feature_float(h, name)` was called.
     GetFeatureFloat(CameraHandle, String),
     /// `set_feature_float(h, name, value)` was called.
@@ -92,6 +94,7 @@ pub enum Method {
     ListCameras,
     OpenCamera,
     LoadSettings,
+    GetFeatureInt,
     GetFeatureFloat,
     SetFeatureFloat,
     SetFeatureEnum,
@@ -407,6 +410,13 @@ impl VmbRuntime for FakeVmbRuntime {
         self.state
             .record(FakeCall::LoadSettings(h, path.to_path_buf()));
         self.state.maybe_fail(Method::LoadSettings)
+    }
+
+    fn get_feature_int(&self, h: CameraHandle, name: &str) -> Result<i64> {
+        self.state
+            .record(FakeCall::GetFeatureInt(h, name.to_string()));
+        self.state.maybe_fail(Method::GetFeatureInt)?;
+        Ok(0)
     }
 
     fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64> {

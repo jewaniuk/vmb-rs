@@ -206,6 +206,19 @@ impl VmbRuntime for VmbFfiRuntime {
         Ok(())
     }
 
+    fn get_feature_int(&self, h: CameraHandle, name: &str) -> Result<i64> {
+        let raw = self.resolve_camera(h)?;
+        let cmd = CString::new(name).map_err(|_| VmbError::InvalidString {
+            context: "feature_int_get",
+        })?;
+        let mut value: i64 = 0;
+        // SAFETY: `cmd` lives until end of call. `value` is mutably borrowed.
+        unsafe {
+            check((self.state.api.VmbFeatureIntGet())(raw, cmd.as_ptr(), &mut value))?;
+        }
+        Ok(value)
+    }
+
     fn get_feature_float(&self, h: CameraHandle, name: &str) -> Result<f64> {
         let raw = self.resolve_camera(h)?;
         let cmd = CString::new(name).map_err(|_| VmbError::InvalidString {
